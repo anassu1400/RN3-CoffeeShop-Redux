@@ -8,8 +8,15 @@ import coffeeshops from "./list";
 
 // Component
 import CoffeeItem from "./CoffeeItem";
-
+import CartButton from "../CartButton";
 class CoffeeList extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Coffee List",
+      headerLeft: null,
+      headerRight: <CartButton navigation={navigation} />
+    };
+  };
   render() {
     const { coffeeShops, loading } = this.props.coffeeReducer;
     let shops;
@@ -18,7 +25,11 @@ class CoffeeList extends Component {
       return <Spinner />;
     }
     shops = coffeeShops.map(coffeeShop => (
-      <CoffeeItem coffeeShop={coffeeShop} key={coffeeShop.id} />
+      <CoffeeItem
+        coffeeShop={coffeeShop}
+        navigation={this.props.navigation}
+        key={coffeeShop.id}
+      />
     ));
 
     return (
