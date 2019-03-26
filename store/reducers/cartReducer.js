@@ -10,7 +10,8 @@ const initialState = {
       option: "Large",
       quantity: 1
     }
-  ]
+  ],
+  previousOrders: ["order1", "order2", "order3"]
 };
 
 const cartReducer = (state = initialState, action) => {

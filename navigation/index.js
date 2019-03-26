@@ -1,34 +1,58 @@
-import { createStackNavigator, createAppContainer } from "react-navigation";
-
-import Login from "../Components/Login";
+// import { createStackNavigator, createAppContainer } from "react-navigation";
+import React from "react";
+// import Login from "../Components/Login";
 // import HomePage from "../Components/HomePage";
-import CoffeeCart from "../Components/CoffeeCart";
-import CoffeeList from "../Components/CoffeeList";
-import CoffeeDetail from "../Components/CoffeeDetail";
+import CoffeeStack from "./CoffeeStack";
+import AuthStack from "./AuthStack";
+import CartStack from "./OrdersStack";
+import { Icon } from "native-base";
+import { createBottomTabNavigator, createAppContainer } from "react-navigation";
 
-const myStack = createStackNavigator(
+const BottomNav = createBottomTabNavigator(
   {
-    Login: Login,
-    Cart: CoffeeCart,
-    CoffeeDetail: CoffeeDetail,
-    CoffeeList: CoffeeList
+    Auth: AuthStack,
+    Coffee: CoffeeStack,
+    Cart: CartStack
   },
   {
-    initialRouteName: "Login",
-    defaultNavigationOptions: {
-      headerTintColor: "white",
-      headerStyle: {
-        backgroundColor: "rgb(20,90,100)"
-      },
-      headerTextStyle: {
-        fontWeight: "bold"
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let IconType;
+        let iconName;
+        if (routeName === "Auth") {
+          iconName = "ios-person";
+          IconType = "Ionicons";
+        } else if (routeName === "Coffee") {
+          iconName = `coffee`;
+          IconType = "FontAwesome";
+        } else if (routeName === "Cart") {
+          iconName = "shopping-cart";
+          IconType = "FontAwesome";
+        }
+        // You can return any component that you like here!
+        return (
+          <Icon
+            name={iconName}
+            type={IconType}
+            size={25}
+            style={{ color: tintColor }}
+          />
+        );
       }
-    },
-    cardStyle: {
-      backgroundColor: "rgb(20,90,100)"
+    }),
+    tabBarOptions: {
+      showLabel: false,
+      activeTintColor: "pink",
+      inactiveTintColor: "lightblue",
+      activeBackgroundColor: "lightblue",
+      style: {
+        backgroundColor: "#ffd1dc"
+      }
     }
   }
 );
-const AppContainer = createAppContainer(myStack);
+
+const AppContainer = createAppContainer(BottomNav);
 
 export default AppContainer;
